@@ -17,7 +17,7 @@ if sys.version_info[0] < 3:
     reload(sys)
     sys.setdefaultencoding('utf8')
 
-VERSION = "0.0.2"
+VERSION = "1.0.0"
 
 
 class BColors:
@@ -69,8 +69,8 @@ def main():
     print("# Welcome to graylog tail                                                  #")
     print("# Version: {}                                                           #".format(VERSION))
     print("# Python version: {}.{}.{}                                                    #".format(sys.version_info[0],
-                                                                                               sys.version_info[1],
-                                                                                               sys.version_info[2]))
+                                                                                                   sys.version_info[1],
+                                                                                                   sys.version_info[2]))
     print("#                                                                          #")
     print("############################################################################")
     try:
@@ -111,7 +111,7 @@ def main():
                 exit()
 
         except Exception as e:
-            print(BColors.fail("SERVER NOT FOUND \nThe request timeout!" ))
+            print(BColors.fail("SERVER NOT FOUND \nThe request timeout!"))
             exit()
 
         if args.password == "":
@@ -132,7 +132,8 @@ def main():
 
             while True:
                 try:
-                    stream_index = int(input(BColors.info('Enter stream number[1 - {}]: '.format(len(result['streams'])))))
+                    stream_index = int(
+                        input(BColors.info('Enter stream number[1 - {}]: '.format(len(result['streams'])))))
                 except ValueError as e:
                     print(BColors.warning("Invalid input id"))
                     continue

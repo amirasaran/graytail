@@ -9,8 +9,6 @@ from setuptools import setup, find_packages
 from codecs import open
 from os import path
 
-from graytail.graytail import VERSION
-
 here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the README file
@@ -19,7 +17,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='graytail',
-    version=VERSION,
+    version="1.0.0",
     description='Python GrayLog Tail',
     long_description=long_description,
     url='https://github.com/amirasaran/graytail',
@@ -60,5 +58,4 @@ setup(
     entry_points={
         'console_scripts': ['graytail=graytail.graytail:main'],
     }
-    # scripts=['bin/graytail']
 )
