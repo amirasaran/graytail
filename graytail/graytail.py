@@ -11,6 +11,11 @@ import natsort as natsort
 import requests
 import time
 
+import ConfigParser
+
+from os.path import expanduser
+home = expanduser("~")
+
 from requests.auth import HTTPBasicAuth
 
 if sys.version_info[0] < 3:
@@ -65,23 +70,31 @@ class BColors:
 
 def main():
     print("############################################################################")
-    print("#                                                                          #")
-    print("# Welcome to graylog tail                                                  #")
-    print("# Version: {}                                                           #".format(VERSION))
-    print("# Python version: {}.{}.{}                                                    #".format(sys.version_info[0],
-                                                                                                   sys.version_info[1],
-                                                                                                   sys.version_info[2]))
-    print("#                                                                          #")
+    print("# ")
+    print("# Welcome to Graylog tail ")
+    print("# Version: {} ".format(VERSION))
+    print("# Python version: {}.{}.{} ".format(sys.version_info[0],sys.version_info[1], sys.version_info[2]))
+    print("# ")
     print("############################################################################")
     try:
-        parser = argparse.ArgumentParser(description='Gray log command line tail')
+        parser = argparse.ArgumentParser(description='Graylog command line tail')
+
+        read_vars_from_file = False
+        askCreds = False
+        try:
+            f = open(home+"/.graytail.cfg")
+            read_vars_from_file = True
+            config = ConfigParser.ConfigParser()
+            config.read(home+"/.graytail.cfg") 
+        except IOError:
+            askCreds = True 
 
         parser.add_argument(
             '--base-url',
             dest='base_url',
-            help='Gray log base url',
+            help='Graylog base url',
             type=str,
-            required=True
+            required=askCreds
         )
 
         parser.add_argument(
@@ -89,7 +102,7 @@ def main():
             dest='username',
             help='The user username in gray log',
             type=str,
-            required=True
+            required=askCreds
         )
 
         parser.add_argument(
@@ -102,6 +115,10 @@ def main():
         )
 
         args = parser.parse_args()
+        if read_vars_from_file:
+            args.base_url = config.get('graytail', 'base_url')
+            args.username = config.get('graytail', 'username')
+            args.password = config.get('graytail', 'password')
 
         url = "{}/api/api-browser".format(args.base_url)
         try:
@@ -181,7 +198,7 @@ def main():
                     if message['message']['_id'] in last_item:
                         continue
 
-                    print("{}".format(replace(message['message']['message'])[1:-1]))
+                    print(  message['message']['message']  )
                     last_item.append(message['message']['_id'])
 
         stream_data = get_stream()
