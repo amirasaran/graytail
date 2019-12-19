@@ -22,7 +22,7 @@ if sys.version_info[0] < 3:
     reload(sys)
     sys.setdefaultencoding('utf8')
 
-VERSION = "1.0.0"
+VERSION = "1.0.1"
 
 
 class BColors:
